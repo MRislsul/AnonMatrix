@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.16)
+project(AnonMatrixAndroid LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Android-specific settings
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake)
+set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
+set(CMAKE_ANDROID_STL_TYPE c++_shared)
+
+find_package(Qt5 COMPONENTS Core Quick Network Gui REQUIRED)
+find_package(CURL REQUIRED)
+
+add_library(AnonMatrixAndroid SHARED main_android.cpp)
+target_compile_definitions(AnonMatrixAndroid PRIVATE ANDROID_BUILD)
+target_link_libraries(AnonMatrixAndroid
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Network
+    Qt5::Gui
+    CURL::libcurl
+    log
+    android
+)

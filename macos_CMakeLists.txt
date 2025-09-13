@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.16)
+project(AnonMatrixMacOS LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# macOS universal build
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+set(CMAKE_MACOSX_RPATH ON)
+
+find_package(Qt5 COMPONENTS Core Quick Network Gui REQUIRED)
+find_package(CURL REQUIRED)
+
+add_executable(AnonMatrixMacOS MACOSX_BUNDLE main_mac.cpp)
+target_compile_definitions(AnonMatrixMacOS PRIVATE MACOS_BUILD)
+target_link_libraries(AnonMatrixMacOS
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Network
+    Qt5::Gui
+    CURL::libcurl
+    "-framework AppKit"
+    "-framework Security"
+)
+
+set_target_properties(AnonMatrixMacOS PROPERTIES
+    MACOSX_BUNDLE_INFO_PLIST ../Info.plist
+    MACOSX_BUNDLE_ICON_FILE icon.icns
+)

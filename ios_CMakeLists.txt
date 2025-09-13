@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.16)
+project(AnonMatrixiOS LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# iOS-specific settings
+set(CMAKE_OSX_ARCHITECTURES arm64)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "15.0")
+set(CMAKE_XCODE_ATTRIBUTE_ENABLE_BITCODE NO)
+
+find_package(Qt5 COMPONENTS Core Quick Network Gui REQUIRED)
+find_package(CURL REQUIRED)
+
+add_executable(AnonMatrixiOS main_ios.cpp)
+target_compile_definitions(AnonMatrixiOS PRIVATE IOS_BUILD)
+target_link_libraries(AnonMatrixiOS
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Network
+    Qt5::Gui
+    CURL::libcurl
+    "-framework UIKit"
+    "-framework Foundation"
+)

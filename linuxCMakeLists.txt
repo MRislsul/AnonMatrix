@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.16)
+project(AnonMatrixLinux LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Настройка полностью статической сборки
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
+set(BUILD_SHARED_LIBS OFF)
+set(QT_NO_LINK_QTMAIN ON)
+
+# Поиск статических библиотек
+find_package(Qt5 COMPONENTS Core Quick Network Gui REQUIRED)
+find_package(CURL REQUIRED)
+
+# Сборка исполняемого файла
+add_executable(AnonMatrixLinux main_linux.cpp)
+target_compile_definitions(AnonMatrixLinux PRIVATE LINUX_BUILD)
+target_link_libraries(AnonMatrixLinux 
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Network
+    Qt5::Gui
+    CURL::libcurl
+    -static
+)
+
+# Установка
+install(TARGETS AnonMatrixLinux DESTINATION .)

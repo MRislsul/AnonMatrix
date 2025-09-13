@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+echo "Building all platforms..."
+./linux/build_linux.sh
+./windows/build_windows.ps1
+./macos/build_macos.sh
+./android/build_android.sh
+./ios/build_ios.sh
+
+echo "All builds completed!"

@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.16)
+project(AnonMatrixWindows LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Windows-specific settings
+set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++ -lws2_32 -lcrypt32")
+set(CMAKE_RC_COMPILER windres)
+set(CMAKE_RC_FLAGS "-O coff")
+
+find_package(Qt5 COMPONENTS Core Quick Network Gui REQUIRED)
+find_package(CURL REQUIRED)
+
+add_executable(AnonMatrixWindows WIN32 main_win.cpp)
+target_compile_definitions(AnonMatrixWindows PRIVATE WINDOWS_BUILD)
+target_link_libraries(AnonMatrixWindows
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Network
+    Qt5::Gui
+    CURL::libcurl
+    ws2_32
+    crypt32
+)
+
+# Добавление иконки
+if(CMAKE_HOST_WIN32)
+    target_sources(AnonMatrixWindows PRIVATE resources.rc)
+endif()
