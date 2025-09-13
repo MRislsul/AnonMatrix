@@ -17,7 +17,6 @@ You can download the latest version for your platform from our [download page](h
 ## Building from source
 
 ### Linux
-```bash
 cd linux
 ./build_linux.sh
 
